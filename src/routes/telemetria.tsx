@@ -9,7 +9,7 @@ import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/telemetria")({
-  validateSearch: (s: Record<string, unknown>): { id?: string } => (typeof s.id === "string" ? { id: s.id } : {}),
+  validateSearch: (s: Record<string, unknown>): { id?: string } => (typeof s["id"] === "string" ? { id: s["id"] } : {}),
   head: () => ({
     meta: [
       { title: "Equipamentos e Telemetria — ESKALA" },
@@ -23,10 +23,10 @@ export const Route = createFileRoute("/telemetria")({
 
 function Telemetry() {
   const { equipment, interventions } = useEskala();
-  const { id = equipment[0].id } = Route.useSearch();
+  const { id } = Route.useSearch();
   const navigate = useNavigate({ from: "/telemetria" });
   const [q, setQ] = useState("");
-  const e = equipment.find((x) => x.id === id) ?? equipment[0];
+  const e = equipment.find((x) => x.id === id) ?? equipment[0]!;
   const cond = conditionOf(e.reading);
   const list = useMemo(() => equipment.filter((x) => x.id.toLowerCase().includes(q.toLowerCase()) || x.station.toLowerCase().includes(q.toLowerCase())), [equipment, q]);
   const history = interventions.filter((i) => i.equipmentId === e.id).sort((a, b) => b.date.localeCompare(a.date));
