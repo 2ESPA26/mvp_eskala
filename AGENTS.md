@@ -8,3 +8,5 @@
 > Commits you push to the connected branch sync back to Lovable and show up in
 > the editor, so keep the branch in a working state.
 <!-- LOVABLE:END -->
+
+- ESKALA app state (simulated equipment, alerts, interventions) lives in a single React context in src/lib/eskala/store.tsx seeded deterministically from src/lib/eskala/data.ts — keeps all pages consistent and SSR-safe without a backend.
