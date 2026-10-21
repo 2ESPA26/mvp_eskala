@@ -96,7 +96,7 @@ function Alerts() {
             </thead>
             <tbody>
               {rows.map((a) => {
-                const plan = PLAN[a.variable];
+                const plan = PLAN[a.variable]!;
                 const isOpen = expanded === a.id;
                 return (
                   <Fragment key={a.id}>

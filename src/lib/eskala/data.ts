@@ -120,7 +120,7 @@ export function seed() {
   let alertN = 1001;
 
   for (let i = 0; i < TOTAL_EQUIPMENT; i++) {
-    const station = STATIONS[i % STATIONS.length];
+    const station = STATIONS[i % STATIONS.length]!;
     const roll = rnd();
     const base: Reading = {
       vibration: roll > 0.93 ? 7.2 + rnd() * 2 : roll > 0.82 ? 4.6 + rnd() * 2 : 1.5 + rnd() * 2.5,
@@ -132,7 +132,7 @@ export function seed() {
     const e: Equipment = {
       id: `ESC-${String(i + 1).padStart(3, "0")}`,
       station,
-      manufacturer: MANUFACTURERS[Math.floor(rnd() * MANUFACTURERS.length)],
+      manufacturer: MANUFACTURERS[Math.floor(rnd() * MANUFACTURERS.length)]!,
       criticality: rnd() > 0.6 ? "A" : "B",
       rise: Math.round((4 + rnd() * 14) * 10) / 10,
       online,
@@ -157,7 +157,7 @@ export function seed() {
 
     const nHist = Math.floor(rnd() * 3);
     for (let h = 0; h < nHist; h++) {
-      const comp = COMPONENTS[Math.floor(rnd() * COMPONENTS.length)];
+      const comp = COMPONENTS[Math.floor(rnd() * COMPONENTS.length)]!;
       interventions.push({
         id: `INT-${e.id}-${h}`,
         equipmentId: e.id,

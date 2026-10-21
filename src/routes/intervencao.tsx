@@ -10,7 +10,7 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 
 export const Route = createFileRoute("/intervencao")({
-  validateSearch: (s: Record<string, unknown>): { alertId?: string } => (typeof s.alertId === "string" ? { alertId: s.alertId } : {}),
+  validateSearch: (s: Record<string, unknown>): { alertId?: string } => (typeof s["alertId"] === "string" ? { alertId: s["alertId"] } : {}),
   head: () => ({
     meta: [
       { title: "Registro de Intervenção — ESKALA" },
@@ -112,7 +112,7 @@ function InterventionPage() {
   );
 }
 
-function Field({ label, error, full, children }: { label: string; error?: string; full?: boolean; children: React.ReactNode }) {
+function Field({ label, error, full, children }: { label: string; error?: string | undefined; full?: boolean; children: React.ReactNode }) {
   return (
     <div className={full ? "space-y-1.5 sm:col-span-2" : "space-y-1.5"}>
       <Label className="text-xs text-muted-foreground">{label}</Label>
