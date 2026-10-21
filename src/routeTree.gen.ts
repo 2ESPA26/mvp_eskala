@@ -10,33 +10,63 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AlertasRouteImport } from './routes/alertas'
+import { Route as IntervencaoRouteImport } from './routes/intervencao'
+import { Route as TelemetriaRouteImport } from './routes/telemetria'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AlertasRoute = AlertasRouteImport.update({
+  id: '/alertas',
+  path: '/alertas',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const IntervencaoRoute = IntervencaoRouteImport.update({
+  id: '/intervencao',
+  path: '/intervencao',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TelemetriaRoute = TelemetriaRouteImport.update({
+  id: '/telemetria',
+  path: '/telemetria',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/alertas': typeof AlertasRoute
+  '/intervencao': typeof IntervencaoRoute
+  '/telemetria': typeof TelemetriaRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/alertas': typeof AlertasRoute
+  '/intervencao': typeof IntervencaoRoute
+  '/telemetria': typeof TelemetriaRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/alertas': typeof AlertasRoute
+  '/intervencao': typeof IntervencaoRoute
+  '/telemetria': typeof TelemetriaRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths: '/' | '/alertas' | '/intervencao' | '/telemetria'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/' | '/alertas' | '/intervencao' | '/telemetria'
+  id: '__root__' | '/' | '/alertas' | '/intervencao' | '/telemetria'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AlertasRoute: typeof AlertasRoute
+  IntervencaoRoute: typeof IntervencaoRoute
+  TelemetriaRoute: typeof TelemetriaRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +78,35 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/alertas': {
+      id: '/alertas'
+      path: '/alertas'
+      fullPath: '/alertas'
+      preLoaderRoute: typeof AlertasRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/intervencao': {
+      id: '/intervencao'
+      path: '/intervencao'
+      fullPath: '/intervencao'
+      preLoaderRoute: typeof IntervencaoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/telemetria': {
+      id: '/telemetria'
+      path: '/telemetria'
+      fullPath: '/telemetria'
+      preLoaderRoute: typeof TelemetriaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AlertasRoute: AlertasRoute,
+  IntervencaoRoute: IntervencaoRoute,
+  TelemetriaRoute: TelemetriaRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
