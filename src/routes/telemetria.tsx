@@ -162,7 +162,7 @@ function SensorChart({ title, unit, data, value, digits, limit, warn, offline }:
           <LineChart data={chart}>
             <CartesianGrid stroke="var(--border)" vertical={false} />
             <XAxis dataKey="t" hide />
-            <YAxis stroke="var(--muted-foreground)" fontSize={11} tickLine={false} axisLine={false} width={36} domain={["auto", (m: number) => Math.max(m, limit) * 1.05]} />
+            <YAxis stroke="var(--muted-foreground)" fontSize={11} tickLine={false} axisLine={false} width={36} domain={[(m: number) => Math.floor(Math.min(m, limit) * 0.9), (m: number) => Math.ceil(Math.max(m, limit) * 1.05)]} />
             <Tooltip contentStyle={{ background: "var(--popover)", border: "1px solid var(--border)", borderRadius: 8 }} labelFormatter={() => ""} formatter={(v: number) => [`${v} ${unit}`, title]} />
             <ReferenceLine y={limit} stroke="var(--status-high)" strokeDasharray="4 4" />
             <Line dataKey="v" stroke="var(--primary)" strokeWidth={2} dot={false} isAnimationActive={false} />
