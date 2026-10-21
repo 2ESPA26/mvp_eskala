@@ -102,7 +102,7 @@ function Alerts() {
                   <Fragment key={a.id}>
                     <tr className="border-b hover:bg-muted/40">
                       <td className="pl-3">
-                        <span className={cn("block h-6 w-1 rounded-full", a.score >= 4 ? "bg-status-high" : a.score >= 2 ? "bg-status-warn" : "bg-primary")} title={`Prioridade ${a.score}`} />
+                        <span className={cn("block h-6 w-1 rounded-none", a.score >= 4 ? "bg-status-high" : a.score >= 2 ? "bg-status-warn" : "bg-primary")} title={`Prioridade ${a.score}`} />
                       </td>
                       <td className="px-3 py-2 font-mono text-xs">{a.id}</td>
                       <td className="px-3 py-2 font-mono text-xs">{a.equipmentId} <span className="text-muted-foreground">· {a.criticality}</span></td>

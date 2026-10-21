@@ -49,12 +49,12 @@ function Telemetry() {
                 <li key={x.id}>
                   <button
                     onClick={() => navigate({ search: { id: x.id } })}
-                    className={cn("flex w-full items-center justify-between rounded-md px-2 py-1.5 text-left text-sm hover:bg-muted", x.id === e.id && "bg-accent")}
+                    className={cn("flex w-full items-center justify-between rounded-none px-2 py-1.5 text-left text-sm hover:bg-muted", x.id === e.id && "bg-accent")}
                   >
                     <span className="font-mono text-xs">{x.id}</span>
                     <span className="flex items-center gap-2 text-xs text-muted-foreground">
                       {x.station}
-                      <span className={cn("size-2 rounded-full", !x.online ? "bg-muted-foreground" : c === "alta" ? "bg-status-high" : c === "atencao" ? "bg-status-warn" : "bg-status-ok")} />
+                      <span className={cn("size-2 rounded-none", !x.online ? "bg-muted-foreground" : c === "alta" ? "bg-status-high" : c === "atencao" ? "bg-status-warn" : "bg-status-ok")} />
                     </span>
                   </button>
                 </li>
@@ -81,7 +81,7 @@ function Telemetry() {
           </Panel>
 
           {!e.online && (
-            <div className="flex items-center gap-2 rounded-xl border border-status-high/40 bg-status-high/10 px-4 py-3 text-sm text-status-high">
+            <div className="flex items-center gap-2 rounded-none border border-status-high/40 bg-status-high/10 px-4 py-3 text-sm text-status-high">
               <WifiOff className="size-4" /> Sem sinal — leituras congeladas no último valor recebido.
             </div>
           )}
@@ -94,7 +94,7 @@ function Telemetry() {
           <div className="grid gap-6 sm:grid-cols-2">
             <Panel title="Nível de óleo">
               <div className="flex items-center gap-6 p-4">
-                <div className="relative h-32 w-14 overflow-hidden rounded-lg border bg-muted">
+                <div className="relative h-32 w-14 overflow-hidden rounded-none border bg-muted">
                   <div className={cn("absolute inset-x-0 bottom-0 transition-all", e.reading.oil < 20 ? "bg-status-high" : "bg-primary")} style={{ height: `${e.reading.oil}%` }} />
                   <div className="absolute inset-x-0 border-t border-dashed border-status-high" style={{ bottom: "20%" }} />
                 </div>

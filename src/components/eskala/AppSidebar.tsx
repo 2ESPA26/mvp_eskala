@@ -25,12 +25,12 @@ const items = [
 export function Logo() {
   return (
     <div className="flex items-center gap-2 overflow-hidden">
-      <div className="grid size-8 shrink-0 place-items-center rounded-lg bg-primary text-primary-foreground">
+      <div className="grid size-8 shrink-0 place-items-center rounded-none bg-primary text-primary-foreground">
         <svg viewBox="0 0 24 24" className="size-5" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
           <path d="M4 19h4l8-12h4" />
         </svg>
       </div>
-      <span className="font-display text-lg font-semibold tracking-[0.18em] group-data-[collapsible=icon]:hidden">ESKALA</span>
+      <span className="border-b-2 border-highlight pb-0.5 font-display text-lg font-semibold tracking-[0.18em] group-data-[collapsible=icon]:hidden">ESKALA</span>
     </div>
   );
 }

@@ -81,7 +81,7 @@ function InterventionPage() {
             <form onSubmit={submit} noValidate className="grid gap-4 p-5 sm:grid-cols-2">
               <Field label="ID do alerta associado"><Input value={`${alert.id} · ${alert.equipmentId}`} readOnly className="bg-muted" /></Field>
               <Field label="Leitura original do sensor">
-                <div className="flex h-9 items-center gap-2 rounded-md border bg-muted px-3 text-sm">
+                <div className="flex h-9 items-center gap-2 rounded-none border bg-muted px-3 text-sm">
                   {alert.variable}: {alert.reading} <SeverityBadge s={alert.severity} />
                 </div>
               </Field>
