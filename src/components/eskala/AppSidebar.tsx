@@ -30,7 +30,7 @@ export function Logo() {
           <path d="M4 19h4l8-12h4" />
         </svg>
       </div>
-      <span className="font-display text-lg font-semibold tracking-[0.18em] group-data-[collapsible=icon]:hidden">ESKALA</span>
+      <span className="border-b-2 border-highlight pb-0.5 font-display text-lg font-semibold tracking-[0.18em] group-data-[collapsible=icon]:hidden">ESKALA</span>
     </div>
   );
 }
