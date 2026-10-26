@@ -57,6 +57,9 @@ export interface Intervention {
   actions: string;
   parts: string;
   downtimeMin: number;
+  technician?: string;
+  maintenanceType?: string;
+  notes?: string;
 }
 
 // Deterministic PRNG so server and client render the same seed data.
@@ -167,6 +170,9 @@ export function seed() {
         actions: "Inspeção, ajuste e teste funcional",
         parts: rnd() > 0.5 ? PARTS[comp] : "—",
         downtimeMin: 30 + Math.floor(rnd() * 240),
+        technician: ["Ana Souza", "Carlos Lima", "Mariana Costa", "Paulo Santos"][(i + h) % 4],
+        maintenanceType: h % 2 === 0 ? "Corretiva" : "Preventiva",
+        notes: h % 2 === 0 ? "Teste funcional concluído após a intervenção." : undefined,
       });
     }
   }
