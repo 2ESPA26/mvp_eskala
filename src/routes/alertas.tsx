@@ -15,6 +15,8 @@ export const Route = createFileRoute("/alertas")({
       { name: "description", content: "Alertas ativos priorizados por severidade e criticidade." },
       { property: "og:title", content: "Central de Alertas — ESKALA" },
       { property: "og:description", content: "Priorize as ocorrências que exigem atendimento." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   component: Alerts,

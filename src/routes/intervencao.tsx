@@ -17,6 +17,8 @@ export const Route = createFileRoute("/intervencao")({
       { name: "description", content: "Registre as ações de manutenção vinculadas a um alerta aberto." },
       { property: "og:title", content: "Registro de Intervenção — ESKALA" },
       { property: "og:description", content: "Documente intervenções de manutenção." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   component: InterventionPage,

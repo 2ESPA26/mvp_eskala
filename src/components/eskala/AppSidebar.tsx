@@ -1,5 +1,5 @@
 import { Link, useRouterState } from "@tanstack/react-router";
-import { Activity, BellRing, ClipboardPen, LayoutDashboard } from "lucide-react";
+import { Activity, BellRing, ClipboardPen, LayoutDashboard, History } from "lucide-react";
 import {
   Sidebar,
   SidebarContent,
@@ -20,6 +20,7 @@ const items = [
   { title: "Central de Alertas", url: "/alertas", icon: BellRing },
   { title: "Equipamentos e Telemetria", url: "/telemetria", icon: Activity },
   { title: "Registro de Intervenção", url: "/intervencao", icon: ClipboardPen },
+  { title: "Histórico de Intervenções", url: "/historico", icon: History },
 ] as const;
 
 export function Logo() {

@@ -16,6 +16,8 @@ export const Route = createFileRoute("/")({
       { name: "description", content: "Visão geral da frota de escadas rolantes monitoradas." },
       { property: "og:title", content: "Dashboard — ESKALA" },
       { property: "og:description", content: "Indicadores, matriz de equipamentos e Pareto de falhas." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   component: Dashboard,

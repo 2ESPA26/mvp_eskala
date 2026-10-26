@@ -1,4 +1,4 @@
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 import { Search, WifiOff, Zap } from "lucide-react";
 import { CartesianGrid, Line, LineChart, ReferenceLine, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
@@ -6,6 +6,7 @@ import { useEskala } from "@/lib/eskala/store";
 import { CRITICALITY_LABEL, LIMITS, conditionOf } from "@/lib/eskala/data";
 import { ConditionBadge, PageHeader, Panel, SimulatedTag } from "@/components/eskala/ui";
 import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/telemetria")({
@@ -16,6 +17,8 @@ export const Route = createFileRoute("/telemetria")({
       { name: "description", content: "Leituras de vibração, temperatura, óleo e corrente por equipamento." },
       { property: "og:title", content: "Equipamentos e Telemetria — ESKALA" },
       { property: "og:description", content: "Telemetria e histórico de intervenções por escada rolante." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   component: Telemetry,
@@ -115,7 +118,7 @@ function Telemetry() {
             </Panel>
           </div>
 
-          <Panel title="Histórico de intervenções">
+          <Panel title="Histórico de intervenções" right={<Button asChild variant="outline" size="sm"><Link to="/historico" search={{ id: e.id }}>Ver histórico completo</Link></Button>}>
             {history.length === 0 ? (
               <p className="px-4 py-6 text-sm text-muted-foreground">Sem intervenções registradas.</p>
             ) : (

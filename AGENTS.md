@@ -10,3 +10,4 @@
 <!-- LOVABLE:END -->
 
 - ESKALA app state (simulated equipment, alerts, interventions) lives in a single React context in src/lib/eskala/store.tsx seeded deterministically from src/lib/eskala/data.ts — keeps all pages consistent and SSR-safe without a backend.
+- Intervention history reads the shared context and filters via src/lib/eskala/history.ts; equipment selection uses the /historico id search parameter — preserves cross-page consistency and direct equipment links without duplicating state.
