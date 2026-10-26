@@ -67,7 +67,7 @@ export function AppSidebar() {
         </SidebarGroup>
       </SidebarContent>
       <SidebarFooter className="px-3 pb-4 text-[11px] text-sidebar-foreground/50 group-data-[collapsible=icon]:hidden">
-        Monitoramento CBM · somente leitura
+        Monitoramento CBM
         <br />
         Dados simulados
       </SidebarFooter>
