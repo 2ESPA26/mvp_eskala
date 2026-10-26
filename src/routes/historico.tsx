@@ -11,7 +11,7 @@ import { Label } from "@/components/ui/label";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription } from "@/components/ui/sheet";
 
 export const Route = createFileRoute("/historico")({
-  validateSearch: (s: Record<string, unknown>): { id?: string } => typeof s.id === "string" ? { id: s.id } : {},
+  validateSearch: (s: Record<string, unknown>): { id?: string } => typeof s["id"] === "string" ? { id: s["id"] } : {},
   head: () => ({ meta: [
     { title: "Histórico de Intervenções — ESKALA" },
     { name: "description", content: "Consulte o histórico completo de manutenção da frota ou de uma escada rolante." },
@@ -91,7 +91,7 @@ function FilterSelect({ label, value, onChange, placeholder, options }: { label:
   return <div className="min-w-0 space-y-1.5"><Label htmlFor={fieldId} className="text-xs text-muted-foreground">{label}</Label><select id={fieldId} value={value} onChange={(e) => onChange(e.target.value)} className="h-9 w-full min-w-0 border bg-card px-2 text-sm outline-none focus:ring-2 focus:ring-ring"><option value="">{placeholder}</option>{options.map((o) => <option key={o.value} value={o.value}>{o.label}</option>)}</select></div>;
 }
 
-function InterventionDetails({ intervention: i, station }: { intervention: Intervention; station?: string }) {
+function InterventionDetails({ intervention: i, station }: { intervention: Intervention; station: string | undefined }) {
   return <div className="space-y-6 py-6">
     <div><div className="font-display text-2xl font-semibold text-primary">{i.equipmentId}</div><p className="mt-1 text-sm text-muted-foreground">{station}</p></div>
     <dl className="grid grid-cols-2 gap-x-4 gap-y-5">

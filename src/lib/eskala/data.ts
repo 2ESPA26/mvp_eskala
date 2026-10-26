@@ -170,9 +170,9 @@ export function seed() {
         actions: "Inspeção, ajuste e teste funcional",
         parts: rnd() > 0.5 ? PARTS[comp] : "—",
         downtimeMin: 30 + Math.floor(rnd() * 240),
-        technician: ["Ana Souza", "Carlos Lima", "Mariana Costa", "Paulo Santos"][(i + h) % 4],
+        technician: ["Ana Souza", "Carlos Lima", "Mariana Costa", "Paulo Santos"][(i + h) % 4] ?? "Ana Souza",
         maintenanceType: h % 2 === 0 ? "Corretiva" : "Preventiva",
-        notes: h % 2 === 0 ? "Teste funcional concluído após a intervenção." : undefined,
+        ...(h % 2 === 0 ? { notes: "Teste funcional concluído após a intervenção." } : {}),
       });
     }
   }
