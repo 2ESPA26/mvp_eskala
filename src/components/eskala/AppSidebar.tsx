@@ -14,7 +14,6 @@ import {
   SidebarTrigger,
 } from "@/components/ui/sidebar";
 import { useEskala } from "@/lib/eskala/store";
-import logoAsset from "@/assets/eskala-logo.png.asset.json";
 
 const items = [
   { title: "Dashboard", url: "/", icon: LayoutDashboard },
@@ -26,14 +25,12 @@ const items = [
 export function Logo() {
   return (
     <div className="flex items-center gap-2 overflow-hidden">
-      <div className="grid size-8 shrink-0 place-items-center rounded-none bg-primary text-primary-foreground group-data-[collapsible=icon]:grid hidden">
+      <div className="grid size-8 shrink-0 place-items-center rounded-none bg-primary text-primary-foreground">
         <svg viewBox="0 0 24 24" className="size-5" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
           <path d="M4 19h4l8-12h4" />
         </svg>
       </div>
-      <div className="rounded-none border-b-2 border-highlight bg-card px-2 py-1 group-data-[collapsible=icon]:hidden">
-        <img src={logoAsset.url} alt="ESKALA" className="h-7 w-auto" />
-      </div>
+      <span className="border-b-2 border-highlight pb-0.5 font-display text-lg font-semibold tracking-[0.18em] group-data-[collapsible=icon]:hidden">ESKALA</span>
     </div>
   );
 }
