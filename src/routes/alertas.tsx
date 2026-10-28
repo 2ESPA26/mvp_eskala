@@ -2,7 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { Fragment, useMemo, useState } from "react";
 import { ChevronDown, Search, ShieldAlert, AlertTriangle, Info } from "lucide-react";
 import { useEskala } from "@/lib/eskala/store";
-import { SEVERITY_LABEL, STATIONS, priorityScore, type Severity } from "@/lib/eskala/data";
+import { LINES, SEVERITY_LABEL, STATIONS, lineOf, priorityScore, type Severity } from "@/lib/eskala/data";
 import { Kpi, NativeSelect, PageHeader, Panel, SeverityBadge, SimulatedTag } from "@/components/eskala/ui";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -38,13 +38,14 @@ function Alerts() {
         .filter((a) => a.open)
         .map((a) => {
           const e = eqMap.get(a.equipmentId)!;
-          return { ...a, station: e.station, criticality: e.criticality, score: priorityScore(a.severity, e.criticality) };
+          return { ...a, station: e.station, line: e.line, criticality: e.criticality, score: priorityScore(a.severity, e.criticality) };
         }),
     [alerts, eqMap],
   );
 
   const [q, setQ] = useState("");
   const [station, setStation] = useState("");
+  const [line, setLine] = useState("");
   const [sev, setSev] = useState("");
   const [crit, setCrit] = useState("");
   const [expanded, setExpanded] = useState<string | null>(null);
@@ -54,6 +55,7 @@ function Alerts() {
       (a) =>
         a.equipmentId.toLowerCase().includes(q.toLowerCase()) &&
         (!station || a.station === station) &&
+        (!line || a.line === line) &&
         (!sev || a.severity === sev) &&
         (!crit || a.criticality === crit),
     )
@@ -76,7 +78,8 @@ function Alerts() {
             <Search className="absolute left-2.5 top-2.5 size-4 text-muted-foreground" />
             <Input value={q} onChange={(e) => setQ(e.target.value)} placeholder="Equipamento…" className="h-9 w-44 pl-8" />
           </div>
-          <NativeSelect value={station} onChange={setStation} placeholder="Estação" options={STATIONS.map((s) => ({ value: s, label: s }))} />
+          <NativeSelect value={line} onChange={(value) => { setLine(value); setStation(""); }} placeholder="Linha" options={LINES.map((value) => ({ value, label: `Linha ${value}` }))} />
+          <NativeSelect value={station} onChange={setStation} placeholder="Estação" options={STATIONS.filter((value) => !line || lineOf(value) === line).map((value) => ({ value, label: value }))} />
           <NativeSelect value={sev} onChange={setSev} placeholder="Severidade" options={(Object.keys(SEVERITY_LABEL) as Severity[]).map((s) => ({ value: s, label: SEVERITY_LABEL[s] }))} />
           <NativeSelect value={crit} onChange={setCrit} placeholder="Criticidade" options={[{ value: "A", label: "A · Crítica" }, { value: "B", label: "B · Não crítica" }]} />
         </div>
@@ -87,6 +90,7 @@ function Alerts() {
                 <th className="w-8" />
                 <th className="px-3 py-2 font-medium">Alerta</th>
                 <th className="px-3 py-2 font-medium">Equipamento</th>
+                <th className="px-3 py-2 font-medium">Linha</th>
                 <th className="px-3 py-2 font-medium">Estação</th>
                 <th className="px-3 py-2 font-medium">Variável</th>
                 <th className="px-3 py-2 text-right font-medium">Leitura</th>
@@ -108,6 +112,7 @@ function Alerts() {
                       </td>
                       <td className="px-3 py-2 font-mono text-xs">{a.id}</td>
                       <td className="px-3 py-2 font-mono text-xs">{a.equipmentId} <span className="text-muted-foreground">· {a.criticality}</span></td>
+                      <td className="px-3 py-2 whitespace-nowrap">{a.line}</td>
                       <td className="px-3 py-2">{a.station}</td>
                       <td className="px-3 py-2">{a.variable}</td>
                       <td className="px-3 py-2 text-right tabular-nums">{a.reading}</td>
@@ -126,7 +131,7 @@ function Alerts() {
                     {isOpen && (
                       <tr className="border-b bg-muted/30">
                         <td />
-                        <td colSpan={9} className="px-3 py-3">
+                        <td colSpan={10} className="px-3 py-3">
                           <div className="flex flex-wrap gap-8 text-sm">
                             <div>
                               <div className="mb-1 text-xs text-muted-foreground">Plano de atendimento sugerido</div>
@@ -151,7 +156,7 @@ function Alerts() {
                 );
               })}
               {rows.length === 0 && (
-                <tr><td colSpan={10} className="px-3 py-10 text-center text-muted-foreground">Nenhum alerta ativo com esses filtros.</td></tr>
+                <tr><td colSpan={11} className="px-3 py-10 text-center text-muted-foreground">Nenhum alerta ativo com esses filtros.</td></tr>
               )}
             </tbody>
           </table>

@@ -41,7 +41,7 @@ function InterventionHistory() {
     <PageHeader title="Histórico de Intervenções" subtitle="Registro de manutenção da frota e de cada escada rolante" right={<SimulatedTag />} />
     <div className="mb-6 space-y-4 border-y py-4">
       <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-[1fr_1.4fr]">
-        <FilterSelect label="Equipamento" value={id ?? ""} onChange={(value) => navigate({ search: value ? { id: value } : {} })} placeholder="Toda a frota" options={equipment.map((e) => ({ value: e.id, label: `${e.id} · ${e.station}` }))} />
+        <FilterSelect label="Equipamento" value={id ?? ""} onChange={(value) => navigate({ search: value ? { id: value } : {} })} placeholder="Toda a frota" options={equipment.map((e) => ({ value: e.id, label: `${e.id} · ${e.line} · ${e.station}` }))} />
         <div className="space-y-1.5">
           <Label htmlFor="history-query" className="text-xs text-muted-foreground">Pesquisa</Label>
           <div className="relative"><Search className="absolute left-3 top-2.5 size-4 text-muted-foreground" /><Input id="history-query" placeholder="Equipamento, técnico, componente ou serviço" value={filters.query} onChange={(e) => update("query", e.target.value)} className="pl-9" /></div>
@@ -67,7 +67,7 @@ function InterventionHistory() {
         <thead className="border-b bg-muted/50 text-xs text-muted-foreground"><tr>{["Data da intervenção", "Escada rolante", "Componente", "Serviço realizado", "Técnico responsável", "Detalhes"].map((title) => <th key={title} scope="col" className="px-4 py-3 font-medium">{title}</th>)}</tr></thead>
         <tbody className="divide-y">{rows.map((i) => <tr key={i.id} onClick={() => setSelectedId(i.id)} className="cursor-pointer hover:bg-muted/50">
           <td className="whitespace-nowrap px-4 py-4 tabular-nums">{new Date(i.date).toLocaleDateString("pt-BR")}</td>
-          <td className="px-4 py-4 font-mono text-xs font-medium text-primary">{i.equipmentId}</td>
+          <td className="px-4 py-4 font-mono text-xs font-medium text-primary">{i.equipmentId}<span className="mt-1 block font-sans font-normal text-muted-foreground">{equipment.find((e) => e.id === i.equipmentId)?.line} · {equipment.find((e) => e.id === i.equipmentId)?.station}</span></td>
           <td className="px-4 py-4">{i.component}</td>
           <td className="min-w-56 max-w-96 px-4 py-4"><div className="line-clamp-2">{i.actions}</div></td>
           <td className="px-4 py-4">{technicianOf(i)}</td>
@@ -80,7 +80,7 @@ function InterventionHistory() {
     <Sheet open={Boolean(selected)} onOpenChange={(open) => { if (!open) setSelectedId(null); }}>
       <SheetContent className="w-full overflow-y-auto bg-card sm:max-w-lg">
         <SheetHeader className="border-b pb-5 text-left"><SheetTitle className="pr-6 font-display">Detalhes da intervenção</SheetTitle><SheetDescription>{selected?.id}</SheetDescription></SheetHeader>
-        {selected && <InterventionDetails intervention={selected} station={equipment.find((e) => e.id === selected.equipmentId)?.station} />}
+        {selected && <InterventionDetails intervention={selected} station={equipment.find((e) => e.id === selected.equipmentId) ? `${equipment.find((e) => e.id === selected.equipmentId)!.line} · ${equipment.find((e) => e.id === selected.equipmentId)!.station}` : undefined} />}
       </SheetContent>
     </Sheet>
   </>;

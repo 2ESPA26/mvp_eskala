@@ -31,18 +31,18 @@ function Telemetry() {
   const [q, setQ] = useState("");
   const e = equipment.find((x) => x.id === id) ?? equipment[0]!;
   const cond = conditionOf(e.reading);
-  const list = useMemo(() => equipment.filter((x) => x.id.toLowerCase().includes(q.toLowerCase()) || x.station.toLowerCase().includes(q.toLowerCase())), [equipment, q]);
+  const list = useMemo(() => equipment.filter((x) => x.id.toLowerCase().includes(q.toLowerCase()) || x.station.toLowerCase().includes(q.toLowerCase()) || x.line.toLowerCase().includes(q.toLowerCase())), [equipment, q]);
   const history = interventions.filter((i) => i.equipmentId === e.id).sort((a, b) => b.date.localeCompare(a.date));
 
   return (
     <>
       <PageHeader title="Equipamentos e Telemetria" subtitle="Atualização a cada 5 segundos" right={<SimulatedTag />} />
-      <div className="grid gap-6 lg:grid-cols-[240px_1fr]">
+      <div className="grid gap-6 lg:grid-cols-[300px_1fr]">
         <Panel className="h-fit lg:sticky lg:top-6">
           <div className="border-b p-3">
             <div className="relative">
               <Search className="absolute left-2.5 top-2.5 size-4 text-muted-foreground" />
-              <Input value={q} onChange={(ev) => setQ(ev.target.value)} placeholder="Buscar ID ou estação" className="h-9 pl-8" />
+              <Input value={q} onChange={(ev) => setQ(ev.target.value)} placeholder="Buscar ID, linha ou estação" className="h-9 pl-8" />
             </div>
           </div>
           <ul className="max-h-48 overflow-y-auto p-1 lg:max-h-[70vh]">
@@ -56,7 +56,7 @@ function Telemetry() {
                   >
                     <span className="font-mono text-xs">{x.id}</span>
                     <span className="flex items-center gap-2 text-xs text-muted-foreground">
-                      {x.station}
+                      <span className="text-right">{x.line}<span className="block">{x.station}</span></span>
                       <span className={cn("size-2 rounded-none", !x.online ? "bg-muted-foreground" : c === "alta" ? "bg-status-high" : c === "atencao" ? "bg-status-warn" : "bg-status-ok")} />
                     </span>
                   </button>
@@ -71,7 +71,7 @@ function Telemetry() {
             <div className="flex flex-wrap items-center gap-x-8 gap-y-3 p-4">
               <div>
                 <div className="font-display text-2xl font-semibold">{e.id}</div>
-                <div className="text-sm text-muted-foreground">{e.station} · {e.manufacturer}</div>
+                <div className="text-sm text-muted-foreground">Linha {e.line} · {e.station} · {e.manufacturer}</div>
               </div>
               <Info label="Desnível" value={`${e.rise} m`} />
               <Info label="Criticidade" value={CRITICALITY_LABEL[e.criticality]} />

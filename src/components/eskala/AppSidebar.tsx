@@ -1,5 +1,5 @@
 import { Link, useRouterState } from "@tanstack/react-router";
-import { Activity, BellRing, ClipboardPen, LayoutDashboard, History } from "lucide-react";
+import { Activity, BellRing, ClipboardPen, LayoutDashboard, History, Route as RouteIcon } from "lucide-react";
 import {
   Sidebar,
   SidebarContent,
@@ -18,6 +18,7 @@ import { useEskala } from "@/lib/eskala/store";
 const items = [
   { title: "Dashboard", url: "/", icon: LayoutDashboard },
   { title: "Central de Alertas", url: "/alertas", icon: BellRing },
+  { title: "Otimização de Rota", url: "/rotas", icon: RouteIcon },
   { title: "Equipamentos e Telemetria", url: "/telemetria", icon: Activity },
   { title: "Registro de Intervenção", url: "/intervencao", icon: ClipboardPen },
   { title: "Histórico de Intervenções", url: "/historico", icon: History },

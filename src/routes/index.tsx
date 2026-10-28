@@ -3,7 +3,7 @@ import { useMemo, useState } from "react";
 import { AlertTriangle, ArrowUpDown, BellRing, CheckCircle2, ChevronLeft, ChevronRight, Gauge, Layers, Search, ShieldAlert } from "lucide-react";
 import { Bar, CartesianGrid, ComposedChart, Line, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import { useEskala } from "@/lib/eskala/store";
-import { COMPONENTS, CONDITION_LABEL, MANUFACTURERS, STATIONS, conditionOf, type Condition } from "@/lib/eskala/data";
+import { COMPONENTS, CONDITION_LABEL, LINES, MANUFACTURERS, STATIONS, lineOf, conditionOf, type Condition } from "@/lib/eskala/data";
 import { ConditionBadge, Kpi, NativeSelect, PageHeader, Panel, SimulatedTag } from "@/components/eskala/ui";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -23,7 +23,7 @@ export const Route = createFileRoute("/")({
   component: Dashboard,
 });
 
-type SortKey = "id" | "station" | "manufacturer" | "criticality" | "condition" | "vibration" | "temperature" | "oil";
+type SortKey = "id" | "line" | "station" | "manufacturer" | "criticality" | "condition" | "vibration" | "temperature" | "oil";
 const condRank: Record<Condition, number> = { normal: 0, atencao: 1, alta: 2 };
 const PAGE = 12;
 
@@ -37,6 +37,7 @@ function Dashboard() {
 
   const [q, setQ] = useState("");
   const [station, setStation] = useState("");
+  const [line, setLine] = useState("");
   const [maker, setMaker] = useState("");
   const [cond, setCond] = useState("");
   const [crit, setCrit] = useState("");
@@ -48,6 +49,7 @@ function Dashboard() {
       (r) =>
         r.id.toLowerCase().includes(q.toLowerCase()) &&
         (!station || r.station === station) &&
+        (!line || r.line === line) &&
         (!maker || r.manufacturer === maker) &&
         (!cond || r.condition === cond) &&
         (!crit || r.criticality === crit),
@@ -59,7 +61,7 @@ function Dashboard() {
           ? r.reading[sort.k]
           : r[sort.k];
     return [...f].sort((a, b) => (val(a) > val(b) ? 1 : val(a) < val(b) ? -1 : 0) * sort.d);
-  }, [rows, q, station, maker, cond, crit, sort]);
+  }, [rows, q, station, line, maker, cond, crit, sort]);
   const pages = Math.max(1, Math.ceil(filtered.length / PAGE));
   const cur = Math.min(page, pages - 1);
 
@@ -110,7 +112,8 @@ function Dashboard() {
             <Search className="absolute left-2.5 top-2.5 size-4 text-muted-foreground" />
             <Input value={q} onChange={(e) => reset(setQ)(e.target.value)} placeholder="Buscar ID…" className="h-9 w-44 pl-8" />
           </div>
-          <NativeSelect value={station} onChange={reset(setStation)} placeholder="Estação" options={STATIONS.map((s) => ({ value: s, label: s }))} />
+          <NativeSelect value={line} onChange={(value) => { setLine(value); setStation(""); setPage(0); }} placeholder="Linha" options={LINES.map((value) => ({ value, label: `Linha ${value}` }))} />
+          <NativeSelect value={station} onChange={reset(setStation)} placeholder="Estação" options={STATIONS.filter((value) => !line || lineOf(value) === line).map((value) => ({ value, label: value }))} />
           <NativeSelect value={maker} onChange={reset(setMaker)} placeholder="Fabricante" options={MANUFACTURERS.map((s) => ({ value: s, label: s }))} />
           <NativeSelect
             value={cond}
@@ -125,6 +128,7 @@ function Dashboard() {
             <thead className="text-left text-xs text-muted-foreground">
               <tr className="border-b">
                 {th("id", "ID")}
+                {th("line", "Linha")}
                 {th("station", "Estação")}
                 {th("manufacturer", "Fabricante")}
                 {th("criticality", "Crit.")}
@@ -140,6 +144,7 @@ function Dashboard() {
               {filtered.slice(cur * PAGE, cur * PAGE + PAGE).map((r) => (
                 <tr key={r.id} className="border-b last:border-0 hover:bg-muted/40">
                   <td className="px-3 py-2 font-mono text-xs">{r.id}</td>
+                  <td className="px-3 py-2 whitespace-nowrap">{r.line}</td>
                   <td className="px-3 py-2">{r.station}</td>
                   <td className="px-3 py-2 text-muted-foreground">{r.manufacturer}</td>
                   <td className="px-3 py-2">{r.criticality}</td>

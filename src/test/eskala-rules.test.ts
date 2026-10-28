@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { alertsForReading, conditionOf, priorityScore, seed } from "@/lib/eskala/data";
+import { LINES, STATIONS, alertsForReading, conditionOf, lineOf, priorityScore, seed } from "@/lib/eskala/data";
 
 const ok = { vibration: 2, temperature: 60, oil: 50, current: 20 };
 
@@ -12,9 +12,11 @@ describe("ESKALA rules", () => {
   it("critical equipment raises priority", () => {
     expect(priorityScore("alto", "A")).toBeGreaterThan(priorityScore("alto", "B"));
   });
-  it("seeds 197 escalators across 5 stations", () => {
+  it("seeds 197 escalators only across the four selected Motiva lines", () => {
     const { equipment } = seed();
     expect(equipment).toHaveLength(197);
-    expect(new Set(equipment.map((e) => e.station)).size).toBe(5);
+    expect(new Set(equipment.map((e) => e.station)).size).toBe(12);
+    expect(new Set(equipment.map((e) => e.line))).toEqual(new Set(LINES));
+    expect(equipment.every((e) => STATIONS.includes(e.station) && e.line === lineOf(e.station))).toBe(true);
   });
 });

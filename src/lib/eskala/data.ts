@@ -5,7 +5,28 @@ export type Criticality = "A" | "B"; // A = crítica, B = não crítica
 export type Severity = "critico" | "alto" | "medio";
 export type Component = "Motor" | "Redutor" | "Degraus" | "Corrimão" | "Freios";
 
-export const STATIONS = ["Sé", "Luz", "Paraíso", "Consolação", "Barra Funda"] as const;
+export const LINES = ["4-Amarela", "5-Lilás", "8-Diamante", "9-Esmeralda"] as const;
+export type Line = (typeof LINES)[number];
+// Amostra de estações operadas pela Motiva. A frota abaixo continua simulada.
+export const STATION_INFO = [
+  { name: "Luz", line: "4-Amarela" },
+  { name: "Paulista", line: "4-Amarela" },
+  { name: "Pinheiros", line: "4-Amarela" },
+  { name: "Chácara Klabin", line: "5-Lilás" },
+  { name: "Santa Cruz", line: "5-Lilás" },
+  { name: "Santo Amaro", line: "5-Lilás" },
+  { name: "Palmeiras - Barra Funda", line: "8-Diamante" },
+  { name: "Osasco", line: "8-Diamante" },
+  { name: "Itapevi", line: "8-Diamante" },
+  { name: "Vila Olímpia", line: "9-Esmeralda" },
+  { name: "Berrini - Casas Bahia", line: "9-Esmeralda" },
+  { name: "Morumbi - Claro", line: "9-Esmeralda" },
+] as const;
+export const STATIONS = STATION_INFO.map((station) => station.name);
+export type Station = (typeof STATION_INFO)[number]["name"];
+export function lineOf(station: Station): Line {
+  return STATION_INFO.find((item) => item.name === station)!.line;
+}
 export const MANUFACTURERS = ["Atlas Schindler", "Otis", "ThyssenKrupp", "Kone"] as const;
 export const COMPONENTS: Component[] = ["Motor", "Redutor", "Degraus", "Corrimão", "Freios"];
 export const TOTAL_EQUIPMENT = 197;
@@ -25,7 +46,8 @@ export interface Reading {
 
 export interface Equipment {
   id: string;
-  station: string;
+  station: Station;
+  line: Line;
   manufacturer: string;
   criticality: Criticality;
   rise: number; // desnível (m)
@@ -135,6 +157,7 @@ export function seed() {
     const e: Equipment = {
       id: `ESC-${String(i + 1).padStart(3, "0")}`,
       station,
+      line: lineOf(station),
       manufacturer: MANUFACTURERS[Math.floor(rnd() * MANUFACTURERS.length)]!,
       criticality: rnd() > 0.6 ? "A" : "B",
       rise: Math.round((4 + rnd() * 14) * 10) / 10,
